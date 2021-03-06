@@ -1,0 +1,26 @@
+{
+  "name": "try-pixi-react",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "snowpack dev --polyfill-node",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/remyoudemans/try-pixi-react.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/remyoudemans/try-pixi-react/issues"
+  },
+  "homepage": "https://github.com/remyoudemans/try-pixi-react#readme",
+  "dependencies": {
+    "pixi.js": "^6.0.0"
+  },
+  "devDependencies": {
+    "snowpack": "^3.0.13"
+  }
+}
