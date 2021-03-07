@@ -1,8 +1,9 @@
 import { Text } from 'pixi.js';
 
 export default class Score {
-  constructor() {
+  constructor(app) {
     this.innerValue = 0;
+    this.app = app;
 
     this.sprite = new Text(
       this.text,
@@ -22,5 +23,10 @@ export default class Score {
   add(increase) {
     this.innerValue += increase;
     this.sprite.text = this.text;
+  }
+
+  addToStage() {
+    this.app.stage.addChild(this.sprite);
+    return this;
   }
 }

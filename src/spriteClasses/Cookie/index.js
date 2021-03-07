@@ -21,4 +21,9 @@ export default class Cookie {
     this.sprite.scale.x -= 0.0003 * delta;
     this.sprite.scale.y -= 0.0003 * delta;
   }
+
+  addToStage() {
+    this.app.stage.addChild(this.sprite);
+    return this;
+  }
 }

@@ -40,13 +40,9 @@ const gameLoop = (delta) => {
 // This `setup` function will run when the image has loaded
 function setup(_, resources) {
 
-  const score = new Score();
-  const cat = new Cat(app, resources.cat.texture);
-  const cookie = new Cookie(app, resources.cookie.texture);
-
-  app.stage.addChild(cat.sprite);
-  app.stage.addChild(cookie.sprite);
-  app.stage.addChild(score.sprite);
+  const score = new Score(app).addToStage();
+  const cat = new Cat(app, resources.cat.texture).addToStage();
+  const cookie = new Cookie(app, resources.cookie.texture).addToStage();
 
   state = play({ app, cat, cookie, score });
 

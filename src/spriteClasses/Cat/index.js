@@ -86,4 +86,9 @@ export default class Cat {
   get isAtTopOrBottom() {
     return this.sprite.vy < 0 && this.sprite.y <= this.sprite.height / 2 || this.sprite.vy > 0 && this.sprite.y >= this.app.view.height - this.sprite.height / 2;
   }
+
+  addToStage() {
+    this.app.stage.addChild(this.sprite);
+    return this;
+  }
 }
