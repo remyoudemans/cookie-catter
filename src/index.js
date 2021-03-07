@@ -1,4 +1,5 @@
 import * as PIXI from 'pixi.js';
+import hitTestRectangle from './utils/hitTestRectangle';
 
 let type = "WebGL"
 
@@ -33,8 +34,8 @@ let cat, state, cookie, score, scoreVal;
 
 const positionRandomly = sprite => {
   sprite.position.set(
-    Math.random() * (STAGE_WIDTH - sprite.width) + sprite.width / 2,
-    Math.random() * (STAGE_HEIGHT - sprite.height) + sprite.height / 2
+    Math.random() * (app.view.width - sprite.width) + sprite.width / 2,
+    Math.random() * (app.view.height - sprite.height) + sprite.height / 2
   );
 };
 
@@ -46,15 +47,15 @@ loader
   .load(setup);
 
 const play = delta => {
-  if (cat.vx > 0 && cat.x >= STAGE_WIDTH - cat.width / 2 || cat.vx < 0 && cat.x <= cat.width / 2) {
+  if (cat.vx > 0 && cat.x >= app.view.width - cat.width / 2 || cat.vx < 0 && cat.x <= cat.width / 2) {
     cat.vx = 0;
   }
 
-  if (cat.vy < 0 && cat.y <= cat.height / 2 || cat.vy > 0 && cat.y >= STAGE_HEIGHT - cat.height / 2) {
+  if (cat.vy < 0 && cat.y <= cat.height / 2 || cat.vy > 0 && cat.y >= app.view.height - cat.height / 2) {
     cat.vy = 0;
   }
 
-  if (Math.abs(cat.x - cookie.x) < (cat.width + cookie.width) / 2 && Math.abs(cat.y - cookie.y) < (cat.height + cookie.height) / 2) {
+  if (hitTestRectangle(cat, cookie)) {
     positionRandomly(cookie);
 
     scoreVal += 20;
@@ -90,8 +91,8 @@ function setup(_, resources) {
 
   cat.anchor.x = 0.5;
   cat.anchor.y = 0.5;
-  cat.position.x = STAGE_WIDTH / 2;
-  cat.position.y = STAGE_HEIGHT / 2;
+  cat.position.x = app.view.width / 2;
+  cat.position.y = app.view.height / 2;
   cat.interactive = true;
 
   let catRotationOn = false;
