@@ -7,8 +7,8 @@ let Application = PIXI.Application,
     loader = PIXI.Loader.shared,
     Sprite = PIXI.Sprite;
 
-const STAGE_WIDTH = 500;
-const STAGE_HEIGHT = 500;
+const STAGE_WIDTH = 1000;
+const STAGE_HEIGHT = 800;
 const MOTION_SPEED = 4;
 
 // Create a Pixi Application
@@ -59,6 +59,7 @@ function setup(_, resources) {
   cat.position.x = app.view.width / 2;
   cat.position.y = app.view.height / 2;
   cat.interactive = true;
+  cat.scale.set(0.7, 0.7);
 
   let catRotationOn = false;
   cat.vx = 0;

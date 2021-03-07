@@ -16,16 +16,23 @@ const play = ({ app, cat, cookie, score, scoreVal }) => delta => {
     cat.vy = 0;
   }
 
-  if (hitTestRectangle(cat, cookie)) {
-    positionRandomly(cookie, app);
+  const catGotCookie = hitTestRectangle(cat, cookie);
 
-    scoreVal += 20;
+  if (catGotCookie || cookie.scale.x <= 0) {
+    positionRandomly(cookie, app);
+    cookie.scale.set(0.1, 0.1);
+
+    if (catGotCookie) {
+      scoreVal += 20;
+    }
   }
 
   cat.x += cat.vx * delta;
   cat.y += cat.vy * delta;
   cat.rotation += cat.vrotation * delta;
   score.text = `Score: ${scoreVal}`;
+  cookie.scale.x -= 0.0003 * delta;
+  cookie.scale.y -= 0.0003 * delta;
 }
 
 export default play;
