@@ -1,4 +1,5 @@
 import * as PIXI from 'pixi.js';
+import Cat from './spriteClasses/Cat';
 
 import play from './utils/play';
 
@@ -9,7 +10,6 @@ let Application = PIXI.Application,
 
 const STAGE_WIDTH = 1000;
 const STAGE_HEIGHT = 800;
-const MOTION_SPEED = 4;
 
 // Create a Pixi Application
 let app = new Application({ 
@@ -22,11 +22,11 @@ let app = new Application({
 
 document.body.appendChild(app.view);
 
-let cat, state, cookie, score, scoreVal;
+let state, score, scoreVal;
 
 loader
   .add([
-    { name: 'cat', url:"images/cat.png" },
+    { name: 'cat', url: Cat.resourceUrl },
     { name: 'cookie', url: "images/cookie.png" }
   ])
   .load(setup);
@@ -40,13 +40,13 @@ const gameLoop = (delta) => {
 function setup(_, resources) {
 
   // Create the cat sprite
-  cat = new Sprite(resources.cat.texture);
-  cookie = new Sprite(resources.cookie.texture);
+  const cookie = new Sprite(resources.cookie.texture);
   scoreVal = 0
   score = new PIXI.Text(`Score: ${scoreVal}`,{fontFamily : 'Arial', fontSize: 24, fill : 0xff1010, align : 'center'});
   
-  // Add the cat to the stage
-  app.stage.addChild(cat);
+  const cat = new Cat(app, resources.cat.texture);
+
+  app.stage.addChild(cat.sprite);
   app.stage.addChild(cookie);
   app.stage.addChild(score);
 
@@ -54,53 +54,8 @@ function setup(_, resources) {
   cookie.anchor.set(0.5, 0.5);
   cookie.position.set(70, 70);
 
-  cat.anchor.x = 0.5;
-  cat.anchor.y = 0.5;
-  cat.position.x = app.view.width / 2;
-  cat.position.y = app.view.height / 2;
-  cat.interactive = true;
-  cat.scale.set(0.7, 0.7);
-
-  let catRotationOn = false;
-  cat.vx = 0;
-  cat.vy = 0;
-  cat.vrotation = 0;
-
-  state = play({ app, cat, cookie, score, scoreVal });
+  state = play({ app, cat: cat.sprite, cookie, score, scoreVal });
 
   app.ticker.add(gameLoop);
 
-  cat.on('click', () => {
-    catRotationOn = !catRotationOn;
-    if (catRotationOn) {
-      cat.vrotation = 0.01;
-    } else {
-      cat.vrotation = 0;
-    }
-  });
-
-  document.addEventListener('keydown', (e) => {
-    switch(e.key) {
-      case 'ArrowUp':
-        cat.vx = 0;
-        cat.vy = -MOTION_SPEED;
-        break;
-      case 'ArrowDown':
-        cat.vx = 0;
-        cat.vy = MOTION_SPEED;
-        break;
-      case 'ArrowLeft':
-        cat.vx = -MOTION_SPEED;
-        cat.vy = 0;
-        break;
-      case 'ArrowRight':
-        cat.vx = MOTION_SPEED;
-        cat.vy = 0;
-        break;
-      case ' ':
-        cat.vx = 0;
-        cat.vy = 0;
-        break;
-    }
-  })
 }
