@@ -8,15 +8,8 @@ const positionRandomly = (sprite, app) => {
 };
 
 const play = ({ app, cat, cookie, score, scoreVal }) => delta => {
-  if (cat.vx > 0 && cat.x >= app.view.width - cat.width / 2 || cat.vx < 0 && cat.x <= cat.width / 2) {
-    cat.vx = 0;
-  }
 
-  if (cat.vy < 0 && cat.y <= cat.height / 2 || cat.vy > 0 && cat.y >= app.view.height - cat.height / 2) {
-    cat.vy = 0;
-  }
-
-  const catGotCookie = hitTestRectangle(cat, cookie);
+  const catGotCookie = hitTestRectangle(cat.sprite, cookie);
 
   if (catGotCookie || cookie.scale.x <= 0) {
     positionRandomly(cookie, app);
@@ -27,9 +20,7 @@ const play = ({ app, cat, cookie, score, scoreVal }) => delta => {
     }
   }
 
-  cat.x += cat.vx * delta;
-  cat.y += cat.vy * delta;
-  cat.rotation += cat.vrotation * delta;
+  cat.move(delta);
   score.text = `Score: ${scoreVal}`;
   cookie.scale.x -= 0.0003 * delta;
   cookie.scale.y -= 0.0003 * delta;

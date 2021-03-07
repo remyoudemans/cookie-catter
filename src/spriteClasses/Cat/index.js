@@ -6,6 +6,8 @@ export default class Cat {
   constructor(app, texture) {
     this.sprite = new Sprite(texture);
 
+    this.app = app;
+
     this.sprite.anchor.set(0.5, 0.5);
     this.sprite.position.set(
       app.view.width / 2,
@@ -61,5 +63,27 @@ export default class Cat {
         this.sprite.vy = 0;
         break;
     }
+  }
+
+  move(delta) {
+    if (this.isAtSide) {
+      this.sprite.vx = 0;
+    }
+
+    if (this.isAtTopOrBottom) {
+      this.sprite.vy = 0;
+    }
+
+    this.sprite.x += this.sprite.vx * delta;
+    this.sprite.y += this.sprite.vy * delta;
+    this.sprite.rotation += this.sprite.vrotation * delta;
+  }
+
+  get isAtSide() {
+    return this.sprite.vx > 0 && this.sprite.x >= this.app.view.width - this.sprite.width / 2 || this.sprite.vx < 0 && this.sprite.x <= this.sprite.width / 2;
+  }
+
+  get isAtTopOrBottom() {
+    return this.sprite.vy < 0 && this.sprite.y <= this.sprite.height / 2 || this.sprite.vy > 0 && this.sprite.y >= this.app.view.height - this.sprite.height / 2;
   }
 }

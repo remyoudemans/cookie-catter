@@ -54,7 +54,7 @@ function setup(_, resources) {
   cookie.anchor.set(0.5, 0.5);
   cookie.position.set(70, 70);
 
-  state = play({ app, cat: cat.sprite, cookie, score, scoreVal });
+  state = play({ app, cat, cookie, score, scoreVal });
 
   app.ticker.add(gameLoop);
 
