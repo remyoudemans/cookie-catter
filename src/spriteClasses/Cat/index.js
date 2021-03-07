@@ -14,31 +14,16 @@ export default class Cat {
       app.view.height / 2,
     )
 
-    this.sprite.interactive = true;
-
     this.sprite.scale.set(0.7, 0.7);
 
-    this.rotationOn = false;
     this.motionSpeed = 4;
 
     this.sprite.vx = 0;
     this.sprite.vy = 0;
-    this.sprite.vrotation = 0;
-
-    this.sprite.on('click', this.onClick.bind(this));
 
     document.addEventListener('keydown', this.onKeyDown.bind(this));
   }
 
-  onClick() {
-    this.rotationOn = !this.rotationOn;
-
-    if (this.rotationOn) {
-      this.sprite.vrotation = 0.01;
-    } else {
-      this.sprite.vrotation = 0;
-    }
-  }
 
   onKeyDown(e) {
     switch(e.key) {
@@ -76,7 +61,16 @@ export default class Cat {
 
     this.sprite.x += this.sprite.vx * delta;
     this.sprite.y += this.sprite.vy * delta;
-    this.sprite.rotation += this.sprite.vrotation * delta;
+
+    if (this.sprite.vx > 0) {
+      this.sprite.angle = -90;
+    } else if (this.sprite.vx < 0) {
+      this.sprite.angle = 90;
+    } else if (this.sprite.vy < 0) {
+      this.sprite.angle = 180;
+    } else {
+      this.sprite.angle = 0;
+    }
   }
 
   get isAtSide() {

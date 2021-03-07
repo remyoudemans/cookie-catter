@@ -17,9 +17,15 @@ let app = new Application({
     width: STAGE_WIDTH, 
     height: STAGE_HEIGHT,                       
     antialias: true, 
-    resolution: 1
+    resolution: 1,
+    backgroundColor: 0xFFFFFF // white
   }
 );
+
+app.view.style = `
+  border: 3px solid black;
+  border-radius: 10px;
+`;
 
 document.body.appendChild(app.view);
 
@@ -39,7 +45,6 @@ const gameLoop = (delta) => {
 
 // This `setup` function will run when the image has loaded
 function setup(_, resources) {
-
   const score = new Score(app).addToStage();
   const cat = new Cat(app, resources.cat.texture).addToStage();
   const cookie = new Cookie(app, resources.cookie.texture).addToStage();
