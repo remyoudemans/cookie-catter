@@ -1,17 +1,10 @@
 import * as PIXI from 'pixi.js';
-import hitTestRectangle from './utils/hitTestRectangle';
 
-let type = "WebGL"
-
-if(!PIXI.utils.isWebGLSupported()){
-  type = "canvas"
-}
-
-PIXI.utils.sayHello(type)
+import play from './utils/play';
 
 // Aliases
 let Application = PIXI.Application,
-    loader = new PIXI.Loader(),
+    loader = PIXI.Loader.shared,
     Sprite = PIXI.Sprite;
 
 const STAGE_WIDTH = 500;
@@ -23,7 +16,6 @@ let app = new Application({
     width: STAGE_WIDTH, 
     height: STAGE_HEIGHT,                       
     antialias: true, 
-    transparent: false, 
     resolution: 1
   }
 );
@@ -32,13 +24,6 @@ document.body.appendChild(app.view);
 
 let cat, state, cookie, score, scoreVal;
 
-const positionRandomly = sprite => {
-  sprite.position.set(
-    Math.random() * (app.view.width - sprite.width) + sprite.width / 2,
-    Math.random() * (app.view.height - sprite.height) + sprite.height / 2
-  );
-};
-
 loader
   .add([
     { name: 'cat', url:"images/cat.png" },
@@ -46,26 +31,6 @@ loader
   ])
   .load(setup);
 
-const play = delta => {
-  if (cat.vx > 0 && cat.x >= app.view.width - cat.width / 2 || cat.vx < 0 && cat.x <= cat.width / 2) {
-    cat.vx = 0;
-  }
-
-  if (cat.vy < 0 && cat.y <= cat.height / 2 || cat.vy > 0 && cat.y >= app.view.height - cat.height / 2) {
-    cat.vy = 0;
-  }
-
-  if (hitTestRectangle(cat, cookie)) {
-    positionRandomly(cookie);
-
-    scoreVal += 20;
-  }
-
-  cat.x += cat.vx;
-  cat.y += cat.vy;
-  cat.rotation += cat.vrotation;
-  score.text = `Score: ${scoreVal}`;
-}
 
 const gameLoop = (delta) => {
   state(delta);
@@ -100,7 +65,7 @@ function setup(_, resources) {
   cat.vy = 0;
   cat.vrotation = 0;
 
-  state = play;
+  state = play({ app, cat, cookie, score, scoreVal });
 
   app.ticker.add(gameLoop);
 
