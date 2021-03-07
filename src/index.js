@@ -27,6 +27,9 @@ app.view.style = `
   border-radius: 10px;
 `;
 
+
+// TODO: use a separate cat and tail texture. Have tail be an animated sprite. Group them so they move together. Only use cat for hitbox
+
 document.body.appendChild(app.view);
 
 let state;
