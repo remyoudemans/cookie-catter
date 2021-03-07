@@ -9,11 +9,11 @@ const positionRandomly = (sprite, app) => {
 
 const play = ({ app, cat, cookie, score, scoreVal }) => delta => {
 
-  const catGotCookie = hitTestRectangle(cat.sprite, cookie);
+  const catGotCookie = hitTestRectangle(cat.sprite, cookie.sprite);
 
-  if (catGotCookie || cookie.scale.x <= 0) {
-    positionRandomly(cookie, app);
-    cookie.scale.set(0.1, 0.1);
+  if (catGotCookie || cookie.sprite.scale.x <= 0) {
+    positionRandomly(cookie.sprite, app);
+    cookie.resetScale();
 
     if (catGotCookie) {
       scoreVal += 20;
@@ -22,8 +22,7 @@ const play = ({ app, cat, cookie, score, scoreVal }) => delta => {
 
   cat.move(delta);
   score.text = `Score: ${scoreVal}`;
-  cookie.scale.x -= 0.0003 * delta;
-  cookie.scale.y -= 0.0003 * delta;
+  cookie.shrink(delta);
 }
 
 export default play;
