@@ -37,7 +37,10 @@ let state;
 loader
   .add([
     { name: 'cat', url: Cat.resourceUrl },
-    { name: 'cookie', url: Cookie.resourceUrl }
+    { name: 'cookie', url: Cookie.resourceUrl },
+    { name: 'tail', url: 'images/Tail.png' },
+    { name: 'tailFlip', url: 'images/TailFlip.png' },
+    { name: 'tailStraight', url: 'images/TailStraight.png' },
   ])
   .load(setup);
 
@@ -51,6 +54,13 @@ function setup(_, resources) {
   const score = new Score(app).addToStage();
   const cat = new Cat(app, resources.cat.texture).addToStage();
   const cookie = new Cookie(app, resources.cookie.texture).addToStage();
+
+  const catTail = new PIXI.AnimatedSprite([resources.tail.texture, resources.tailStraight.texture, resources.tailFlip.texture, resources.tailStraight.texture]);
+
+  catTail.animationSpeed = 0.05;
+  catTail.play();
+
+  app.stage.addChild(catTail);
 
   state = play({ app, cat, cookie, score });
 
