@@ -6,8 +6,8 @@ import Score from './spriteClasses/Score';
 import play from './utils/play';
 
 // Aliases
-let Application = PIXI.Application,
-    loader = PIXI.Loader.shared,
+const Application = PIXI.Application;
+const loader = PIXI.Loader.shared;
 
 const STAGE_WIDTH = 1000;
 const STAGE_HEIGHT = 800;
