@@ -37,11 +37,8 @@ let state;
 loader
   .add([
     { name: 'cat', url: Cat.resourceUrl },
+    { name: 'tailSprites', url: Cat.tailResourceUrl},
     { name: 'cookie', url: Cookie.resourceUrl },
-    { name: 'tail', url: 'images/Tail.png' },
-    { name: 'tailFlip', url: 'images/TailFlip.png' },
-    { name: 'tailStraight', url: 'images/TailStraight.png' },
-    { name: 'tailSprites', url: 'images/tail_spritesheet.json'}
   ])
   .load(setup);
 

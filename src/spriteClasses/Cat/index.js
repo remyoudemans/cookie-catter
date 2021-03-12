@@ -2,6 +2,7 @@ import { Sprite, AnimatedSprite, Container } from 'pixi.js';
 
 export default class Cat {
   static resourceUrl = "images/cat_without_tail.png";
+  static tailResourceUrl = "images/tail_spritesheet.json";
 
   constructor(app, catTexture, tailTextures) {
     this.app = app;
