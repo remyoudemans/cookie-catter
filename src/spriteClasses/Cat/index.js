@@ -1,20 +1,53 @@
-import { Sprite } from 'pixi.js';
+import { Sprite, AnimatedSprite, Container } from 'pixi.js';
 
 export default class Cat {
-  static resourceUrl = "images/cat.png";
+  static resourceUrl = "images/cat_without_tail.png";
 
-  constructor(app, texture) {
-    this.sprite = new Sprite(texture);
-
+  constructor(app, catTexture, tailTextures) {
     this.app = app;
 
-    this.sprite.anchor.set(0.5, 0.5);
+    const cat =  new Sprite(catTexture);
+    cat.anchor.set(0.5, 0.5);
+    cat.scale.set(0.7, 0.7);
+
+    const catTail = new AnimatedSprite(Object.values(tailTextures));
+
+    catTail.anchor.set(0.5, 0.5);
+    catTail.animationSpeed = 0.5;
+
+    let direction = 'left';
+    catTail.onLoop = () => {
+      if (direction === 'left') {
+        if (catTail.scale.x < 0) {
+          catTail.textures.reverse();
+          direction = 'right';
+        } else {
+          catTail.scale.x = -catTail.scale.x;
+          catTail.textures.reverse();
+        }
+      } else {
+        // direction is right
+        if (catTail.scale.x < 0) {
+          catTail.scale.x = -catTail.scale.x;
+          catTail.textures.reverse();
+        } else {
+          direction = 'left';
+          catTail.textures.reverse();
+        }
+      }
+    }
+
+    catTail.y -= catTail.height;
+    catTail.play();
+
+    this.sprite = new Container();
+
+    this.sprite.addChild(catTail, cat);
+
     this.sprite.position.set(
       app.view.width / 2,
       app.view.height / 2,
-    )
-
-    this.sprite.scale.set(0.7, 0.7);
+    );
 
     this.motionSpeed = 4;
 
