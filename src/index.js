@@ -41,6 +41,7 @@ loader
     { name: 'tail', url: 'images/Tail.png' },
     { name: 'tailFlip', url: 'images/TailFlip.png' },
     { name: 'tailStraight', url: 'images/TailStraight.png' },
+    { name: 'tailSprites', url: 'images/tail_spritesheet.json'}
   ])
   .load(setup);
 
@@ -55,9 +56,35 @@ function setup(_, resources) {
   const cat = new Cat(app, resources.cat.texture).addToStage();
   const cookie = new Cookie(app, resources.cookie.texture).addToStage();
 
-  const catTail = new PIXI.AnimatedSprite([resources.tail.texture, resources.tailStraight.texture, resources.tailFlip.texture, resources.tailStraight.texture]);
+  const catTail = new PIXI.AnimatedSprite(Object.values(resources.tailSprites.textures));
 
-  catTail.animationSpeed = 0.05;
+  catTail.anchor.set(0.5, 0.5);
+  catTail.animationSpeed = 0.5;
+
+  let direction = 'left';
+  catTail.onLoop = () => {
+    if (direction === 'left') {
+      if (catTail.scale.x < 0) {
+        catTail.textures.reverse();
+        direction = 'right';
+      } else {
+        catTail.scale.x = -catTail.scale.x;
+        catTail.textures.reverse();
+      }
+    } else {
+      // direction is right
+      if (catTail.scale.x < 0) {
+        catTail.scale.x = -catTail.scale.x;
+        catTail.textures.reverse();
+      } else {
+        direction = 'left';
+        catTail.textures.reverse();
+      }
+    }
+  }
+
+  catTail.x = 150;
+  catTail.y = 150;
   catTail.play();
 
   app.stage.addChild(catTail);
