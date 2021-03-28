@@ -85,11 +85,8 @@ export default class Cat {
   }
 
   move(delta) {
-    if (this.isAtSide) {
+    if (this.isAtEdge) {
       this.sprite.vx = 0;
-    }
-
-    if (this.isAtTopOrBottom) {
       this.sprite.vy = 0;
     }
 
@@ -107,24 +104,17 @@ export default class Cat {
     }
   }
 
-  get isAtSide() {
-    const { height, x: catX } = this.cat;
+  get isAtEdge() {
+    const { height, x: catX, y: catY } = this.cat;
     const x = catX + this.sprite.x;
+    const y = catY + this.sprite.y;
 
     const isAtRight = this.sprite.vx > 0 && x >= this.app.view.width - height / 2;
     const isAtLeft = this.sprite.vx < 0 && x <= height / 2;
-
-    return isAtRight || isAtLeft;
-  }
-
-  get isAtTopOrBottom() {
-    const { height, y: catY } = this.cat;
-    const y = catY + this.sprite.y;
-
     const isAtTop = this.sprite.vy < 0 && y <= height / 2;
     const isAtBottom = this.sprite.vy > 0 && y >= this.app.view.height - height / 2;
 
-    return isAtTop || isAtBottom;
+    return isAtTop || isAtRight || isAtBottom || isAtLeft;
   }
 
   addToStage() {
