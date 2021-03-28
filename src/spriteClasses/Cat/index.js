@@ -108,11 +108,11 @@ export default class Cat {
   }
 
   get isAtSide() {
-    const { width, x: catX } = this.cat;
+    const { height, x: catX } = this.cat;
     const x = catX + this.sprite.x;
 
-    const isAtRight = this.sprite.vx > 0 && x >= this.app.view.width - width / 2;
-    const isAtLeft = this.sprite.vx < 0 && x <= width / 2;
+    const isAtRight = this.sprite.vx > 0 && x >= this.app.view.width - height / 2;
+    const isAtLeft = this.sprite.vx < 0 && x <= height / 2;
 
     return isAtRight || isAtLeft;
   }
