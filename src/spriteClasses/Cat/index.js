@@ -50,7 +50,8 @@ export default class Cat {
       app.view.height / 2,
     );
 
-    this.motionSpeed = 4;
+    this.originalMotionSpeed = 4;
+    this.motionSpeed = this.originalMotionSpeed;
 
     this.sprite.vx = 0;
     this.sprite.vy = 0;
@@ -58,22 +59,49 @@ export default class Cat {
     document.addEventListener('keydown', this.onKeyDown.bind(this));
   }
 
+  resetMotionSpeed() {
+    this.motionSpeed = this.originalMotionSpeed;
+  }
+
+  increaseMotionSpeed() {
+    this.motionSpeed += this.motionSpeed;
+  }
 
   onKeyDown(e) {
     switch(e.key) {
       case 'ArrowUp':
         this.sprite.vx = 0;
+        if (this.sprite.vy < 0) {
+          this.increaseMotionSpeed();
+        } else {
+          this.resetMotionSpeed();
+        }
         this.sprite.vy = -this.motionSpeed;
         break;
       case 'ArrowDown':
         this.sprite.vx = 0;
+        if (this.sprite.vy > 0) {
+          this.increaseMotionSpeed();
+        } else {
+          this.resetMotionSpeed();
+        }
         this.sprite.vy = this.motionSpeed;
         break;
       case 'ArrowLeft':
+        if (this.sprite.vx < 0) {
+          this.increaseMotionSpeed();
+        } else {
+          this.resetMotionSpeed();
+        }
         this.sprite.vx = -this.motionSpeed;
         this.sprite.vy = 0;
         break;
       case 'ArrowRight':
+        if (this.sprite.vx > 0) {
+          this.increaseMotionSpeed();
+        } else {
+          this.resetMotionSpeed();
+        }
         this.sprite.vx = this.motionSpeed;
         this.sprite.vy = 0;
         break;
