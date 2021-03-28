@@ -102,7 +102,7 @@ export default class Cat {
       this.sprite.angle = 90;
     } else if (this.sprite.vy < 0) {
       this.sprite.angle = 180;
-    } else {
+    } else if (this.sprite.vy > 0) {
       this.sprite.angle = 0;
     }
   }
