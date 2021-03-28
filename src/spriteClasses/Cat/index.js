@@ -7,9 +7,9 @@ export default class Cat {
   constructor(app, catTexture, tailTextures) {
     this.app = app;
 
-    const cat =  new Sprite(catTexture);
-    cat.anchor.set(0.5, 0.5);
-    cat.scale.set(0.7, 0.7);
+    this.cat = new Sprite(catTexture);
+    this.cat.anchor.set(0.5, 0.5);
+    this.cat.scale.set(0.7, 0.7);
 
     const catTail = new AnimatedSprite(Object.values(tailTextures));
 
@@ -43,7 +43,7 @@ export default class Cat {
 
     this.sprite = new Container();
 
-    this.sprite.addChild(catTail, cat);
+    this.sprite.addChild(catTail, this.cat);
 
     this.sprite.position.set(
       app.view.width / 2,
@@ -112,7 +112,13 @@ export default class Cat {
   }
 
   get isAtTopOrBottom() {
-    return this.sprite.vy < 0 && this.sprite.y <= this.sprite.height / 2 || this.sprite.vy > 0 && this.sprite.y >= this.app.view.height - this.sprite.height / 2;
+    const { height, y: catY } = this.cat;
+    const y = catY + this.sprite.y;
+
+    const isAtTop = this.sprite.vy < 0 && y <= height / 2;
+    const isAtBottom = this.sprite.vy > 0 && y >= this.app.view.height - height / 2;
+
+    return isAtTop || isAtBottom;
   }
 
   addToStage() {
